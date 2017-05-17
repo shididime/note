@@ -16,17 +16,17 @@ instanceof 基于原型链的判断
 
 
 
-		  {} instanceof Object    // true 判断类型
-	      typeof 100 === ‘number’ // true 判断类型
+	{} instanceof Object    // true 判断类型
+	typeof 100 === ‘number’ // true 判断类型
 
 
   **2.void 运算符**
 
 
 
-	 // 无论 void 后面是什么 都返回 undefined
-	    void 0  // undefined
-		void(0) // undefined
+	// 无论 void 后面是什么 都返回 undefined
+	 void 0  // undefined
+	void(0) // undefined
 	 
 
 **3.delete 运算符**
