@@ -1,4 +1,4 @@
-#javascript基础#
+# javascript基础
 
 
 **1. instanceof 和 typeof 运算符**
