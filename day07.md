@@ -56,10 +56,7 @@
 	    jQuery.min(2,3); //  2 
 	    jQuery.max(4,5); //  5
 
-	    var settings = { validate: false, limit: 5, name: "foo" }; 
-		var options = { validate: true, name: "bar" }; 
-		jQuery.extend(settings, options); 
-		结果：settings == { validate: true, limit: 5, name: "bar" }// jQuery.extend()为扩展jQuery类本身，为自身添加新的方法。
+	    // jQuery.extend()为扩展jQuery类本身，为自身添加新的方法。
 	    
 	    //Objectj Query.extend( target, object1, [objectN])用一个或多个其他对象来扩展一个对象，返回被扩展的对象
 	    var list = { name: "didi", age: 5, sex: "girl" }; 
