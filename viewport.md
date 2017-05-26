@@ -36,7 +36,7 @@
 
 	user-scalable: 是否允许用户缩放
 
-**layout viewport(布局视口) 和 visual viewport ideal viewport（理想视口）**
+- **layout viewport(布局视口) 和 visual viewport ideal viewport（理想视口）**
 
 
 
@@ -96,13 +96,10 @@ width被用来定义layout viewport的宽度
 
 `一个480*800的分辨率的手机，屏幕尺寸为3英寸*5英寸，dpi=480/3=160`
 
-　　iPhone5S的dpi是326
-
 
 
 dip/dp:指的是抽象意义上的像素,跟设备的屏幕密度有关系
-160dpi的屏幕上，1dip=1px。
-　　它跟屏幕密度有关，如果屏幕密度大，1dip代表的px就多，比如在320dpi的屏幕上，1dip=2px
+160dpi的屏幕上，1dip=1px。它跟屏幕密度有关，如果屏幕密度大，1dip代表的px就多，比如在320dpi的屏幕上，1dip=2px
 
 
 
