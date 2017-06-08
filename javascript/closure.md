@@ -126,6 +126,92 @@ fun()内部的匿名函数运行完毕后内部的变量i立即被销毁了，�
 	}
 将test.id保存在tid中，当闭包引用这个tid时就消除了循环引用，现在闭包不直接引用test,但是包含函数的活动对象会保存这个test的引用，所以还要把test设置为null才会解除对这个DOM元素的引用
 
+私有变量
+
+	/*
+  	* 函数中定义的变量，为私有变量，不能再函数的外部访问这些变量
+  	*/
+ 	function Person(){
+ 		var neme;//私有变量
+ 		var say=function(){
+ 			console.log('hello');//私有方法
+ 		}
+ 		//访问私有变量
+ 		this.getName=function(){//特权方法  能够访问访问私有变量和私有函数
+ 			return name;
+ 		}
+ 		this.setName=function(newname){
+ 			name=newname;
+ 		}
+ 	}
+ 	var p1=new Person();
+ 	p1.setName("di");
+ 	console.log(p1.getName());//di 
+
+ 
+静态私有变量
+
+在私有作用域中定义私有变量和函数,创建特权方法访问私有变量
+ 
+ 	(function(){//块级作用域
+ 		var name;//私有变量
+ 		Person=function(){//全局变量
+ 			return name;
+ 		}
+ 		Person.prototype.getName=function(){//特权方法在原型上定义,所有实例都可以访问
+ 			return name;
+ 		}
+ 		Person.prototype.setName=function(newname){
+ 			name=newname;
+ 		}
+ 	})();
+	 var p1=new Person();
+ 	 var p2=new Person();
+	 p1.setName('di');
+	 console.log(p1.getName());//di
+	 console.log(p2.getName());//di
+ 
+ 单例
+ 单例是只有一个实例的对象,在javascript中用对象字面量的方式创建单例对象
+
+ 	var singleObj={
+ 		name:'John',;
+ 		method:function(){
+ 		
+ 		}
+	 }
+ 
+ 	var testModule=(function(){
+ 		var count=1;//count变量只能通过下面两个方法进行调用
+ 		return {
+ 			incermentCount:function(){
+ 				return ++count;
+ 			},
+ 			resetCount:function(){
+ 				return 0;
+ 			}	
+ 			//incermentCount和resetCount方法只能通过testModule进行调用
+ 		}
+	 })();
+ 
+ 	var Module = (function () {  
+    	var my={},  
+        	privateVar = 8;//私有属性
+    	function privateFun() {//私有方法
+        	return ++privateVar;  
+    	};  
+    	//添加特权
+    	my.publicVar = 1;//公共属性
+    	my.moduleFun = function () {//公共方法
+        	return privateFun();  
+    	};  
+    	//返回这个对象
+    	return my;  //返回了一个my给Module作为外部访问闭包内容的接口
+	}());  
+	console.log(Module.publicVar);//1  
+	console.log(Module.publicFun());//9  
+
+
 	
 	
 
