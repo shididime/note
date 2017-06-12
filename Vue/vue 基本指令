@@ -36,10 +36,6 @@
 				<todo-item v-for="item in items" v-bind:todo="item"></todo-item>
 			</ul>
 		</div>
-	
-			
-		
-		
 	</body>
 	<script src="https://unpkg.com/vue/dist/vue.js"></script>
 	<script>
