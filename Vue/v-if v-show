@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style>
+		</style>
+	</head>
+	<body>
+		<h1 v-if="ok">Yes</h1>
+		<div v-if="Math.random() > 0.5">
+		  Now you see me
+		</div>
+		<div v-else>
+		  Now you don't
+		</div>
+		<div v-if="true">显示</div>
+		<div v-if="false">隐藏</div>
+		<div id="test">
+			<p v-if="male">Male</p>
+			<p v-if="famele">Famele</p>
+			<p v-if="age>25">Age:{{age}}</p>
+			<!--tempalte中v-if组件-->
+			<template v-if="ok">
+				<h1>Title</h1>
+				<p>Paragraph 1</p>
+				<p>Paragraph 2</p>
+			</template>
+			<!--else-if-->
+			<div v-if="type==='A'">
+				A
+			</div>
+			<div v-else-if="type==='B'">
+				B
+			</div>
+			<div v-else>
+				C
+			</div>
+		
+			<template v-if="loginType==='username'">
+				<label>userName</label>
+				<input type="text" placeholder="Enter your username"/>
+			</template>
+			<!--切换方式后输入内容还在，<input> 不会被替换掉——仅仅是替换了它的的 placeholder。-->
+			<template v-else>
+				<label>Email</label>
+				<input type="text" placeholder="Enter your Email"/>
+			</template>
+			<button v-on:click="change">
+				切换方式
+			</button>
+			<!--通过key属性 -->
+			<template v-if="loginType==='username'">
+				<label>userName</label>
+				<input type="text" placeholder="Enter your username" key="input username"/>
+			</template>
+			<!--切换方式后输入内容还在，<input> 不会被替换掉——仅仅是替换了它的的 placeholder。-->
+			<template v-else>
+				<label>Email</label>
+				<input type="text" placeholder="Enter your Email" key="input email"/>
+			</template>
+			<button v-on:click="change">
+				切换方式
+			<
+			<!--v-show 不支持 <template> 语法，也不支持 v-else。v-show 的元素始终会被渲染并保留在 DOM 中。
+			v-show 是简单地切换元素的 CSS 属性 display 。-->
+			<h3 v-show="ok">v-show</h3>
+		</div>
+		
+	</body>
+	<script src="https://unpkg.com/vue/dist/vue.js"></script>
+	<script>
+		var vm = new Vue({
+			el:"#test",
+			data:{
+				male:true,
+				famele:false,
+				age:13,
+				ok:true,
+				type:'D',
+				loginType:'Email'
+			},
+			methods:{
+				change:function(){
+					this.loginType=this.loginType != 'username'?'username':'email'
+				}
+			}
+		})
+	</script>
+</html>
