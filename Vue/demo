@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .hide {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <!--一个指令可以接受一个参数-->
+    <a v-bind:href="url"></a>
+    <!--v-bind 指令被用来响应地更新 HTML 属性：href参数，v-bind指令告诉将素的href属性与url的值想绑定-->
+    <!--v-bind指令缩写 ：-->
+    <a v-bind:href="url"></a>
+    <a :href="url"></a>
+    <div id="text">
+        <p>Original message:{{message}}</p>
+        <p>Computed reversed message:{{reversedMessage}}</p>
+        <!--声明了一个计算属性 reversedMessage-->
+        <p>Computed reversed message:{{reversedMessage()}}</p>
+    </div>
+    <!--列表渲染-->
+    <ul id="text2">
+        <li v-for="item in items">
+            {{item.message}}
+        </li>
+    </ul>
+    <ul id="text3">
+        <li v-for="(value,key,index) in object">
+            {{index}}.{{key}}:{{value}}
+        </li>
+    </ul>
+    <!--组件迭代 组件有自己的作用域，不能自动传递数据，所以为了传递数据到组件里要用props：-->
+    <!--定义一个top-nav组件-->
+    <top-nav v-bind:user-id="userId"></top-nav>
+    <top-nav :user-id="userId">
+    </top-nav>
+    <!--这个组件需要获得userId这个数据，所以要用v-bind定义一个user-id的属性，将userId这个数据传递进来-->
+    <div id="todo-list-expample">
+        <input v-model="todolist" placeholder="Add a todo" v-on:keyup.enter="addNewTodo">
+        <ul>
+            <li v-for="(todo,index) in todos" v-bind:title="todo" is="todo-item" v-on:remove="todos.splice(index,1)"></li>
+        </ul>
+    </div>
+    <!--事件处理器-->
+    <div id="on">
+        <button v-on:click="show">点击</button>
+    </div>
+    <!--表单绑定-->
+    <form id="formBinding">
+        <input type="checkbox" id="jack" v-model="checkednames" value="jack">
+        <label for="jack">jack</label>
+        <input type="checkbox" id="john" v-model="checkednames" value="john">
+        <label for="john">john</label>
+        <input type="checkbox" id="mike" v-model="checkednames" value="mike">
+        <label for="mike">mike</label>
+        <span>{{checkednames}}</span>
+        <br>
+        <select v-model="selected">
+            <option value="" disabled>please select one</option>
+            <option>A</option>
+            <option>B</option>
+            <option>C</option>
+        </select>
+        <span>Selected:{{selected}}</span>
+        <br>
+        <!--动态选项 用v-for渲染-->
+        <select v-model="Selecteds">
+            <option v-for="option in options" :value="option.value">{{option.text}}</option>
+        </select>
+        <span>selected:{{Selecteds}}</span>
+        <br>
+        <!--绑定value-->
+    </form>
+    <!--组件Components-->
+    <div id="example">
+        <my-component></my-compoment>
+    </div>
+    <!--DOM模板限制-->
+    <ul>
+        <!--会出现错误 因为ul限制了被他包裹的子元素 类似的table select-->
+        <my-component></my-component>
+        <!--使用is属性-->
+        <li id="my-component"></li>
+    </ul>
+    <!--组件中的data必须是函数-->
+    <div id="example-2">
+        <simple-counter></simple-counter>
+    </div>
+    <!--子组件与父组件相互通信（父组件给子组件传递数据，子组件将其内部发生的事情告诉给父组件）-->
+    <!--使用props传递数据-->
+    <!--向子组件传递userId这个动态的数据-->
+    <br>
+    <input v-model="userId"></input>
+    <child :user-id="userId"></child>
+    <!--自定义事件 子组件传递数据给父组件用自定义事件-->
+    <!--使用 $on(eventName) 监听事件 使用 $emit(eventName) 触发事件-->
+    <div id="counter-event-example">
+        <p>{{ total }}</p>
+        <button-counter v-on:increment="incrementTotal"></button-counter>
+        <button-counter v-on:increment="incrementTotal"></button-counter>
+    </div>
+    <div id="example-3">
+        <select @change="selectChange" class="change">
+            <option value="all">全部</option>
+            <template  v-for="item in items">
+                <option :value="item.id">{{item.value}}</option>
+            </template>
+        </select>
+        <input type="text" :class="{hide:isHide}"></input>
+    </div>
+</body>
+<script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>
+<script src="https://unpkg.com/vue/dist/vue.js"></script>
+<script>
+    new Vue({
+        el: "#example-3",
+        data: {
+            isHide: false,
+            items: [{
+                id: '1',
+                value: '选项1'
+            }, {
+                id: '2',
+                value: '选项2'
+            }]
+        },
+        methods: {
+            selectChange: function() {
+                if ($(".change").val() == "all") {
+                    this.isHide = true;
+                } else {
+                    this.isHide = false;
+                }
+            }
+        },
+        ready: function() {
+            console.log(1)
+            if ($(".change").val() == "all") {
+                this.isHide = true;
+            } else {
+                this.isHide = false;
+            }
+
+        }
+    })
+    Vue.component('button-counter', {
+            template: '\<button v-on:click="increment">{{counter}}\</button>',
+            data: function() {
+                return {
+                    counter: 0
+                }
+            },
+            methods: {
+                increment: function() {
+                    this.counter += 1;
+                    this.$emit('increment')
+                }
+            },
+        })
+        //自定义组件要写在跟实例前，要不失效
+    var counterevent = new Vue({
+        el: '#counter-event-example',
+        data: {
+            total: 0
+        },
+        methods: {
+            incrementTotal: function() {
+                this.total += 1;
+            }
+
+        }
+    })
+    Vue.component('child', {
+        template: '\<span>{{userId}}\</span>',
+        props: {
+            userId: {
+                type: Number,
+            }
+        }
+    })
+    Vue.component('simple-counter', {
+        template: '\<button v-on:click="counter += 1">{{counter}}\</button>',
+        //组件中的data要用函数
+        data: function() {
+            return {
+                counter: 0
+            }
+        }
+    })
+    var ex2 = new Vue({
+            el: '#example-2',
+            data: {
+                counter: 0
+            }
+        })
+        //全局组件my-component
+    Vue.component('my-component', {
+        template: '\<div>A custom component!\</div>'
+    })
+    var ex = new Vue({
+            el: "#example",
+        })
+        //局部组件
+    var child = {
+        template: '\<div>局部组件\</div>'
+    }
+    new Vue({
+        component: {
+            //'my-component'将只在父模板可用
+            'my-component': child
+        }
+    })
+    var fb = new Vue({
+        el: "#formBinding",
+        data: {
+            checkednames: [], //绑定到同一个数组
+            selected: '',
+            Selecteds: 'A',
+            options: [{
+                text: 'one',
+                value: 'A'
+            }, {
+                text: 'two',
+                value: 'B'
+            }, {
+                text: 'thress',
+                value: 'C'
+            }]
+        }
+    })
+    var ons = new Vue({
+            el: "#on",
+            data: {
+                name: 'didi'
+            },
+            methods: {
+                show: function() {
+                    alert('Hello' + this.name + '!')
+                }
+            }
+        })
+        //定义了一个todo-item组件
+        //这是一个全局组件
+    Vue.component('todo-item', {
+        template: '\<li>{{title}}\<button v-on:click="$emit(\'remove\')">X\</button>\</li>', //$emit 触发当前实例上的事件。附加参数都会传给监听器回调。
+        props: ['title'] //组件绑定了一个title属性 
+
+    })
+    var td = new Vue({
+        el: '#todo-list-expample',
+        data: {
+            todolist: '',
+            todos: [
+                'Do the dishes',
+                'Take out the trash',
+                'Mow the lawn'
+            ]
+        },
+        methods: {
+            addNewTodo: function() {
+                var _this = this;
+                _this.todos.push(_this.todolist);
+                _this.todolist = ''
+
+            }
+        }
+    })
+    var vm = new Vue({
+        el: "#text2",
+        data: {
+            message: "hello",
+            items: [{
+                message: 'one'
+            }, {
+                message: 'two'
+            }, {
+                message: 'three'
+            }]
+        },
+        computed: { //实时计算属性
+            reversedMessage: function() {
+                return this.message.split('').reverse().join('')
+            }
+        },
+        methods: {
+            reversedMessage: function() {
+                return this.message.split('').reverse().join('')
+            }
+        },
+    })
+    var vms = new Vue({
+        el: "#text3",
+        data: {
+            object: {
+                FirstName: 'one',
+                lastName: 'two',
+                fullName: 'three'
+            }
+        }
+    })
+</script>
+
+</html>
