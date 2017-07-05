@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+
+   <div class="button">
+       倒计时
+   </div>
+   <p>距离8.8还有<span>&nbsp;</span>天<span>&nbsp;</span>时<span>&nbsp;</span>分<span>&nbsp;</span>秒</p> 
+
+   
+<script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>
+<script type="text/javascript">
+	
+		
+    $(".button").click(function(){
+    	console.log(1)
+        function ds(){
+            var today=new Date();
+
+            var future=new Date()
+            future.setFullYear(2017)
+            future.setMonth(7)
+            future.setDate(8)
+            future.setHours(0)
+            future.setMinutes(0)
+            future.setSeconds(0)
+            var s=(future.getTime()-today.getTime())/1000
+            var day=Math.floor(s/86400)
+            s=s%86400
+            var hour=Math.floor(s/3600)
+            s=s%3600
+            var min=Math.floor(s/60)
+            s=s%60
+            var s4=s
+            function zero(time){
+                var str=time
+                if(time<=9){
+                    time="0"+time
+
+                }
+                return time
+            }
+            $("span").eq(0).html(zero(day))
+            $("span").eq(1).html(zero(hour))
+            $("span").eq(2).html(zero(min))
+            $("span").eq(3).html(zero(s4))
+        }
+        setInterval(ds,1000)
+    })
+
+
+
+</script>
+
+</body>
+</html>
